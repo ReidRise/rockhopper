@@ -5,16 +5,23 @@ import (
 	"io"
 	"net/http"
 	"os"
+	"path"
 )
 
 func main() {
-	if len(os.Args) < 3 {
-		fmt.Println("Usage: wget-go <url> <output_file>")
+	if len(os.Args) < 2 {
+		fmt.Println("Usage: rockhopper <url> [output_file]")
 		os.Exit(1)
 	}
 
+	outputFile := ""
+	if len(os.Args) > 2 {
+		outputFile = os.Args[2]
+	} else {
+		outputFile = path.Base(os.Args[1])
+	}
+
 	url := os.Args[1]
-	outputFile := os.Args[2]
 
 	resp, err := http.Get(url)
 	if err != nil {
